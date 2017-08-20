@@ -17,6 +17,12 @@ var SepsisQuiz = function () {
       var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
       return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
     }
+  }, {
+    key: 'renderProgressBar',
+    value: function renderProgressBar() {
+      var percentage = this.score / this.questions.length * 100;
+      return '\n      <p>You got ' + this.score + '/' + this.questions.length + ' right</p>\n      <div class="progress-bar-container">\n        <div class="progress-bar" id="progress-bar" style="width:' + percentage + '%"></div>\n      </div>\n    ';
+    }
 
     /**
      *
@@ -244,6 +250,8 @@ jQuery(document).ready(function ($) {
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
 
     /* ------ share ------ */
+    $('#progress_container').html(sepsisQuiz.renderProgressBar());
+
     var tweet = {
       text: "Share Awareness",
       url: "http://www.sepsis.org/"
