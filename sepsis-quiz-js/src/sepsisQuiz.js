@@ -58,6 +58,16 @@ class SepsisQuiz {
     `;
   }
 
+  renderProgressBar() {
+    var percentage = (this.score/this.questions.length)*100;
+    return `
+      <p>You got ${this.score}/${this.questions.length} right</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar" style="width:${percentage}%"></div>
+      </div>
+    `;
+  }
+
 
   /**
    *
@@ -138,7 +148,6 @@ class SepsisQuiz {
     this.currentQuestionIndex += hasUnansweredQuestions
 
     this.status = hasUnansweredQuestions ? 'pending' : 'finished'
-
   }
 
   /**
@@ -307,10 +316,12 @@ jQuery(document).ready(function($) {
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
 
     /* ------ share ------ */
+    $('#progress_container').html(sepsisQuiz.renderProgressBar());
+
     var tweet = {
       text: "Share Awareness",
       url: "http://www.sepsis.org/"
-    }
+    };
     $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
   render(sepsisQuiz);

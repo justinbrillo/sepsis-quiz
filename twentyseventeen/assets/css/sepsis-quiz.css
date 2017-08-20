@@ -158,6 +158,19 @@ BUTTON
 }
 
 /*
+PROGRESS BAR
+*/
+.progress-bar-container {
+    width: 100%;
+    background-color: grey;
+}
+.progress-bar {
+    width: 50%;
+    height: 30px;
+    background-color: green;
+}
+
+/*
 ANIMATION
 */
 .under-card-bottom-reveal {

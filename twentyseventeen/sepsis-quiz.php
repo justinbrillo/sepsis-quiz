@@ -46,11 +46,17 @@ wp_head(); ?>
         <!-- END OF QUESTION -->
     </div>
 
+    <div id="progress_container" class="progress-container">
+        <!-- <p>You got 7/10 right</p>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div> -->
+    </div>
+
     <!-- SHARE -->
     <div id="share_container" class="share-container">
-        <div class="under-card-top"></div>
+<!--         <div class="under-card-top"></div>
 
-        <!-- MAIN CARD -->
         <div class="card-container">
               <div class="question">Question</div>
               <div class="choices">
@@ -59,13 +65,12 @@ wp_head(); ?>
               </div>
         </div>
 
-        <!-- BOTTOM CARD -->
         <div class="under-card-bottom-container">
             <div class="under-card-bottom">
                 <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>
                 <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
             </div>
-        </div>
+        </div> -->
     </div>
     <!-- END OF SHARE -->
 </div>
