@@ -50,7 +50,7 @@ class SepsisQuiz {
             </div>
           </div>
 
-          <div class="under-card-bottom-container-question">
+          <div id="under-card-bottom-container-question-${idx}" class="under-card-bottom-container-question">
             <div id="under-card-bottom-${idx}"class="under-card-bottom">
               <div>${question.learnMore.text}</div>
               <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
@@ -333,6 +333,7 @@ jQuery(document).ready(function ($) {
 
     $(`#${correctId}`).addClass('correct')
     $(`#under-card-top-${questionId}`).addClass('under-card-top-hide')
+    $(`#under-card-bottom-container-question-${questionId}`).css('display', 'flex')
     $(`#under-card-bottom-${questionId}`).addClass('under-card-bottom-reveal')
 
     if (correctId !== answerId) {

@@ -85,7 +85,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n\n          <div class="under-card-bottom-container-question">\n            <div id="under-card-bottom-' + idx + '"class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n      ';
+        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n\n          <div id="under-card-bottom-container-question-' + idx + '" class="under-card-bottom-container-question">\n            <div id="under-card-bottom-' + idx + '"class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n      ';
       }, '');
     }
   }, {
@@ -261,6 +261,7 @@ jQuery(document).ready(function ($) {
 
     $('#' + correctId).addClass('correct');
     $('#under-card-top-' + questionId).addClass('under-card-top-hide');
+    $('#under-card-bottom-container-question-' + questionId).css('display', 'flex');
     $('#under-card-bottom-' + questionId).addClass('under-card-bottom-reveal');
 
     if (correctId !== answerId) {

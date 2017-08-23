@@ -33,7 +33,7 @@ card-container
 }
 
 .under-card-bottom-container-question {
-    display: flex;
+    display: none;
     justify-content: center;
     height: auto;
     overflow-y: hidden;
