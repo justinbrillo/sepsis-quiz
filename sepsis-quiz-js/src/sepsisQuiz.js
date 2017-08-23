@@ -175,6 +175,7 @@ class SepsisQuiz {
 
 // Loads code on screen
 jQuery(document).ready(function ($) {
+  setTimeout(() => $(document).scrollTop(0), 250)
 
   var questions = [
     {

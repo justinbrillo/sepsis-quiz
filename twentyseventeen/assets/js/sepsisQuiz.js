@@ -158,6 +158,9 @@ var SepsisQuiz = function () {
 
 
 jQuery(document).ready(function ($) {
+  setTimeout(function () {
+    return $(document).scrollTop(0);
+  }, 250);
 
   var questions = [{
     questionText: 'About how many people in the U.S. die each year because of sepsis?',
