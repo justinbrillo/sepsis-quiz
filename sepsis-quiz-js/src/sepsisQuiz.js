@@ -41,12 +41,13 @@ class SepsisQuiz {
       return `
         ${html}
           <div id="question-${idx}" class="question-container">
-          <div class="question-number">Question ${idx + 1}</div>
-          <div id="under-card-top-${idx}" class="under-card-top"></div>
-          <div class="card-container">
-            <div class="question">${question.questionText}</div>
-            <div class="choices">
-              ${question.renderedChoices}
+            <div class="question-number">Question ${idx + 1}</div>
+            <div id="under-card-top-${idx}" class="under-card-top"></div>
+            <div class="card-container">
+              <div class="question">${question.questionText}</div>
+              <div class="choices">
+                ${question.renderedChoices}
+              </div>
             </div>
           </div>
 
