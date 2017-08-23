@@ -10,7 +10,6 @@ class SepsisQuiz {
   constructor(questions) {
     this.questions = SepsisQuiz.buildQuestions(questions)
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions)
-    this.status = 'new'
     this.score = 0
     this.totalQuestions = this.questions.length
     this.totalAnsweredQuestions = 0
@@ -18,20 +17,23 @@ class SepsisQuiz {
 
   static renderChoices(question) {
     const answer = typeof question.answer === 'boolean' ? (question.answer ? allOfTheAbove : noneOfTheAbove) : question.answer
+    let correctId = null
 
-    return question.choices.reduce((html, choice, i) => {
-      const id = `choice-${i}`
-      const bingo = choice === answer ? 'bingo' : ''
+    const renderedChoices = question.choices.reduce((html, choice, i) => {
+      const id = `question-${question.id}-choice-${i}`
+      if (choice === answer) {
+        correctId = id
+      }
       return `
         ${html}
-        <div class="field ${bingo}">
-          <label for="id">
-            <i class="${ choice === answer ? 'fa fa-check' : ''}" aria-hidden="true"></i>
-          </label>
-          <input id="${id}" data-question-id="${question.id}" class="choice" value="${choice}" type="submit"/>
+        <div id="${id}" class="choice" data-question-id="${question.id}" data-choice="${choice}">
+          ${choice}
         </div>
       `
     }, '')
+
+    question.correctId = correctId
+    return renderedChoices
   }
 
   static renderQuestions(questions = []) {
@@ -47,13 +49,13 @@ class SepsisQuiz {
               ${question.renderedChoices}
             </div>
           </div>
-          <div id="learn-more-${idx}" class="under-card-bottom-container-question">
-            <div class="under-card-bottom">
+
+          <div class="under-card-bottom-container-question">
+            <div id="under-card-bottom-${idx}"class="under-card-bottom">
               <div>${question.learnMore.text}</div>
               <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
             </div>
           </div>
-        </div>
       `
     }, '')
   }
@@ -94,7 +96,6 @@ class SepsisQuiz {
    *
    * @param answer
    * @param wrongAnswers
-   * @param q
    * @returns {Array}
    * @private
    */
@@ -151,28 +152,23 @@ class SepsisQuiz {
   }
 
   /**
-   * Processes the current question and then moves onto the next question
+   * Processes the current question and returns the correct answer's ID
    */
-  processQuestion(questionIndex, userInput) {
+  processQuestion(questionIndex, answerId) {
     const question = this.questions[questionIndex]
 
-    if (!userInput || question.userSelected !== undefined) {
+    if (question.wasAnswered !== undefined) {
       return null
     }
-    this.status = 'in_progress'
-    const expectedAnswer = typeof question.answer === 'boolean' ? (question.answer ? allOfTheAbove : noneOfTheAbove) : question.answer
-    const isCorrect = userInput === expectedAnswer
+
+    const isCorrect = answerId === question.correctId
 
     this.score += isCorrect
-    question.userSelected = userInput
+    question.wasAnswered = true
 
     this.totalAnsweredQuestions++
 
-    if (this.totalAnsweredQuestions === this.questions.length) {
-      this.status = 'completed'
-    }
-
-    return isCorrect
+    return question.correctId
   }
 
 }
@@ -317,54 +313,34 @@ jQuery(document).ready(function ($) {
     },
   ]
 
-  var sepsisQuiz = new SepsisQuiz(questions)
+  let sepsisQuiz = new SepsisQuiz(questions)
 
-  render(sepsisQuiz)
-  // renderStats()
+  // Render questions
+  $('#questions_container').html(sepsisQuiz.renderedQuestions)
 
-  function renderStats() {
-    $('#score').html(sepsisQuiz.score)
-    $('#status').html(sepsisQuiz.status)
-    $('#answered_count').html(sepsisQuiz.totalAnsweredQuestions)
-    $('#total_count').html(sepsisQuiz.totalQuestions)
-  }
+  // Bind click handler
+  $('.choice').bind('click', onSelect)
 
-  function render(sepsisQuiz) {
-
-    /* ------ questions ------ */
-    $('#questions_container').html(sepsisQuiz.renderedQuestions)
-    $('input.choice').bind('click', onSelect)
-  }
-
-  /* ------ event handlers ------ */
   function onSelect(e) {
-    const qId = $(e.target).attr('data-question-id')
-    const val = e.target.value
+    const questionId = $(e.target).attr('data-question-id')
+    const answerId = $(e.target).attr('id')
 
-    const res = sepsisQuiz.processQuestion(qId, val)
+    const correctId = sepsisQuiz.processQuestion(questionId, answerId)
 
-    if (res !== null) {
-      const parentField = $(e.target).parent()
-      let classNames = 'disabled '
-      parentField.siblings('.field').addClass(classNames)
-
-      classNames += res ? 'correct ' : 'incorrect '
-      // mark the target field disabled and selected..
-      parentField.addClass(classNames + 'selected ' + (res ? 'correct ' : 'incorrect '))
-      // display those awesome icons
-      parentField.find('i').addClass(`fa fa-${res ? 'check' : 'times'}`)
-      parentField.find('.fa').css('display', 'inline-block')
-
-      $(`#under-card-top-${qId}`).addClass('under-card-top-hide')
-      $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal').css({ 'display': 'flex' })
-
-      if(sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
-        $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject))
-      }
-
+    if (correctId === null) {
+      return
     }
 
-    // renderStats()
-  }
+    $(`#${correctId}`).addClass('correct')
+    $(`#under-card-top-${questionId}`).addClass('under-card-top-hide')
+    $(`#under-card-bottom-${questionId}`).addClass('under-card-bottom-reveal')
 
+    if (correctId !== answerId) {
+      $(`#${answerId}`).addClass('incorrect')
+    }
+
+    if (this.totalAnsweredQuestions === this.totalQuestions) {
+      $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject))
+    }
+  }
 })
