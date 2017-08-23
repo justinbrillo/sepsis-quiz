@@ -88,7 +88,7 @@ card-container
     padding: 30px 60px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    width: calc(100% - 40px - 120px);
+    width: calc(100% - 40px);
     align-self: center;
     text-align: center;
     line-height: 1.3;
@@ -105,6 +105,7 @@ card-container
     margin-bottom: 30px;
     padding-bottom: 30px;
     border-bottom: 1px solid #EBEBEB;
+    line-height: 1.3;
 }
 
 .choices {
@@ -297,14 +298,17 @@ card-container
 
 .fb:hover {
     background: #2a4783;
+    color: white;
 }
 
 .tw {
     background: #1DA1F3;
+    transition: all .3s ease;
 }
 
 .tw:hover {
     background: #1893df;
+    color: white;
 }
 
 .cta-container {
@@ -332,6 +336,7 @@ card-container
 
 .cta:hover {
     box-shadow: rgba(241,71,76,.5) 0 0 30px, rgba(40,5,5,.3) 0 0 10px;
+    color: white;
 }
 
 .share-block {
@@ -438,7 +443,6 @@ card-container
 
     .under-card-bottom {
         padding: 30px;
-        width: calc(100% - 40px - 60px);
         font-size: 14px;
     }
 
