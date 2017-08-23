@@ -266,6 +266,7 @@ jQuery(document).ready(function ($) {
     $('#under-card-top-' + questionId).addClass('under-card-top-hide');
     $('#under-card-bottom-container-question-' + questionId).css('display', 'flex');
     $('#under-card-bottom-' + questionId).addClass('under-card-bottom-reveal');
+    $('[data-question-id=\'' + questionId + '\'').addClass('answered');
 
     if (correctId !== answerId) {
       $('#' + answerId).addClass('incorrect');

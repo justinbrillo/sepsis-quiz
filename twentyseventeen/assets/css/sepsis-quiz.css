@@ -122,7 +122,7 @@ card-container
     transition: all .3s ease;
 }
 
-.choices > div:hover {
+.choices > div:not(.answered):hover {
     background: #EBEBEB;
     cursor: pointer;
 }
