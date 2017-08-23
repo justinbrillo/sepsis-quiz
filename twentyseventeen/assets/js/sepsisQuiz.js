@@ -85,7 +85,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n\n          <div class="under-card-bottom-container-question">\n            <div id="under-card-bottom-' + idx + '"class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n      ';
+        return '\n        ' + html + '\n        <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n\n          <div id="under-card-bottom-container-question-' + idx + '" class="under-card-bottom-container-question">\n            <div id="under-card-bottom-' + idx + '"class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -158,6 +158,9 @@ var SepsisQuiz = function () {
 
 
 jQuery(document).ready(function ($) {
+  setTimeout(function () {
+    return $(document).scrollTop(0);
+  }, 250);
 
   var questions = [{
     questionText: 'About how many people in the U.S. die each year because of sepsis?',
@@ -185,7 +188,7 @@ jQuery(document).ready(function ($) {
     }
   }, {
     questionText: 'All of the following are signs of sepsis EXCEPT:',
-    wrongAnswers: ['Fever or feeling chilled.', 'Confusion/difficult to arouse.', 'Extreme pain or discomfort (&quot worst ever &quot).', 'Rapid breathing.'],
+    wrongAnswers: ['Fever or feeling chilled.', 'Confusion/difficult to arouse.', 'Extreme pain or discomfort (&quot;worst ever&quot;).', 'Rapid breathing.'],
     answer: 'Slow heart rate.',
     learnMore: {
       text: 'Less than 1% of Americans can correctly name all the common signs of sepsis, one of which is a rapid heart rate as your heart works to pump blood through your body. You can save a life just by arming yourself by knowing the signs of sepsis.',
@@ -261,13 +264,15 @@ jQuery(document).ready(function ($) {
 
     $('#' + correctId).addClass('correct');
     $('#under-card-top-' + questionId).addClass('under-card-top-hide');
+    $('#under-card-bottom-container-question-' + questionId).css('display', 'flex');
     $('#under-card-bottom-' + questionId).addClass('under-card-bottom-reveal');
+    $('[data-question-id=\'' + questionId + '\'').addClass('answered');
 
     if (correctId !== answerId) {
       $('#' + answerId).addClass('incorrect');
     }
 
-    if (this.totalAnsweredQuestions === this.totalQuestions) {
+    if (sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
       $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject));
     }
   }

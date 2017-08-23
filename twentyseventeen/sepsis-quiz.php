@@ -9,7 +9,6 @@ wp_head(); ?>
 <head>
     <meta charset="UTF-8">
     <title>Sepsis</title>
-    <link href="http://meyerweb.com/eric/tools/css/reset/reset.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,300,400,500" rel="stylesheet">
     <link href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css" rel="stylesheet">
 </head>

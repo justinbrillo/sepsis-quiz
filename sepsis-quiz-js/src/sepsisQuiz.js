@@ -40,7 +40,7 @@ class SepsisQuiz {
     return questions.reduce((html, question, idx) => {
       return `
         ${html}
-          <div id="question-${idx}" class="question-container">
+        <div id="question-${idx}" class="question-container">
           <div class="question-number">Question ${idx + 1}</div>
           <div id="under-card-top-${idx}" class="under-card-top"></div>
           <div class="card-container">
@@ -50,12 +50,13 @@ class SepsisQuiz {
             </div>
           </div>
 
-          <div class="under-card-bottom-container-question">
+          <div id="under-card-bottom-container-question-${idx}" class="under-card-bottom-container-question">
             <div id="under-card-bottom-${idx}"class="under-card-bottom">
               <div>${question.learnMore.text}</div>
               <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
             </div>
           </div>
+        </div>
       `
     }, '')
   }
@@ -175,6 +176,7 @@ class SepsisQuiz {
 
 // Loads code on screen
 jQuery(document).ready(function ($) {
+  setTimeout(() => $(document).scrollTop(0), 250)
 
   var questions = [
     {
@@ -222,7 +224,7 @@ jQuery(document).ready(function ($) {
       wrongAnswers: [
         'Fever or feeling chilled.',
         'Confusion/difficult to arouse.',
-        'Extreme pain or discomfort (&quot worst ever &quot).',
+        'Extreme pain or discomfort (&quot;worst ever&quot;).',
         'Rapid breathing.',
       ],
       answer: 'Slow heart rate.',
@@ -333,13 +335,15 @@ jQuery(document).ready(function ($) {
 
     $(`#${correctId}`).addClass('correct')
     $(`#under-card-top-${questionId}`).addClass('under-card-top-hide')
+    $(`#under-card-bottom-container-question-${questionId}`).css('display', 'flex')
     $(`#under-card-bottom-${questionId}`).addClass('under-card-bottom-reveal')
+    $(`[data-question-id='${questionId}'`).addClass('answered')
 
     if (correctId !== answerId) {
       $(`#${answerId}`).addClass('incorrect')
     }
 
-    if (this.totalAnsweredQuestions === this.totalQuestions) {
+    if (sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
       $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject))
     }
   }
