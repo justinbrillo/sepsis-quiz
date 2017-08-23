@@ -40,14 +40,13 @@ class SepsisQuiz {
     return questions.reduce((html, question, idx) => {
       return `
         ${html}
-          <div id="question-${idx}" class="question-container">
-            <div class="question-number">Question ${idx + 1}</div>
-            <div id="under-card-top-${idx}" class="under-card-top"></div>
-            <div class="card-container">
-              <div class="question">${question.questionText}</div>
-              <div class="choices">
-                ${question.renderedChoices}
-              </div>
+        <div id="question-${idx}" class="question-container">
+          <div class="question-number">Question ${idx + 1}</div>
+          <div id="under-card-top-${idx}" class="under-card-top"></div>
+          <div class="card-container">
+            <div class="question">${question.questionText}</div>
+            <div class="choices">
+              ${question.renderedChoices}
             </div>
           </div>
 
@@ -57,6 +56,7 @@ class SepsisQuiz {
               <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
             </div>
           </div>
+        </div>
       `
     }, '')
   }
