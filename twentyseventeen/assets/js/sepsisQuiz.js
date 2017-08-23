@@ -268,7 +268,7 @@ jQuery(document).ready(function ($) {
       $('#' + answerId).addClass('incorrect');
     }
 
-    if (this.totalAnsweredQuestions === this.totalQuestions) {
+    if (sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
       $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject));
     }
   }
