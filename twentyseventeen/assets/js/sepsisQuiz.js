@@ -16,7 +16,6 @@ var SepsisQuiz = function () {
 
     this.questions = SepsisQuiz.buildQuestions(questions);
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions);
-    this.status = 'new';
     this.score = 0;
     this.totalQuestions = this.questions.length;
     this.totalAnsweredQuestions = 0;
@@ -36,7 +35,6 @@ var SepsisQuiz = function () {
      *
      * @param answer
      * @param wrongAnswers
-     * @param q
      * @returns {Array}
      * @private
      */
@@ -46,39 +44,40 @@ var SepsisQuiz = function () {
 
 
     /**
-     * Processes the current question and then moves onto the next question
+     * Processes the current question and returns the correct answer's ID
      */
-    value: function processQuestion(questionIndex, userInput) {
+    value: function processQuestion(questionIndex, answerId) {
       var question = this.questions[questionIndex];
 
-      if (!userInput || question.userSelected !== undefined) {
+      if (question.wasAnswered !== undefined) {
         return null;
       }
-      this.status = 'in_progress';
-      var expectedAnswer = typeof question.answer === 'boolean' ? question.answer ? allOfTheAbove : noneOfTheAbove : question.answer;
-      var isCorrect = userInput === expectedAnswer;
+
+      var isCorrect = answerId === question.correctId;
 
       this.score += isCorrect;
-      question.userSelected = userInput;
+      question.wasAnswered = true;
 
       this.totalAnsweredQuestions++;
 
-      if (this.totalAnsweredQuestions === this.questions.length) {
-        this.status = 'completed';
-      }
-
-      return isCorrect;
+      return question.correctId;
     }
   }], [{
     key: 'renderChoices',
     value: function renderChoices(question) {
       var answer = typeof question.answer === 'boolean' ? question.answer ? allOfTheAbove : noneOfTheAbove : question.answer;
+      var correctId = null;
 
-      return question.choices.reduce(function (html, choice, i) {
-        var id = 'choice-' + i;
-        var bingo = choice === answer ? 'bingo' : '';
-        return '\n        ' + html + '\n        <div class="field ' + bingo + '">\n          <label for="id">\n            <i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n          </label>\n          <input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/>\n        </div>\n      ';
+      var renderedChoices = question.choices.reduce(function (html, choice, i) {
+        var id = 'question-' + question.id + '-choice-' + i;
+        if (choice === answer) {
+          correctId = id;
+        }
+        return '\n        ' + html + '\n        <div id="' + id + '" class="choice" data-question-id="' + question.id + '" data-choice="' + choice + '">\n          ' + choice + '\n        </div>\n      ';
       }, '');
+
+      question.correctId = correctId;
+      return renderedChoices;
     }
   }, {
     key: 'renderQuestions',
@@ -86,7 +85,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n\n          <div class="under-card-bottom-container-question">\n            <div id="under-card-bottom-' + idx + '"class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n      ';
       }, '');
     }
   }, {
@@ -244,50 +243,32 @@ jQuery(document).ready(function ($) {
 
   var sepsisQuiz = new SepsisQuiz(questions);
 
-  render(sepsisQuiz);
-  // renderStats()
+  // Render questions
+  $('#questions_container').html(sepsisQuiz.renderedQuestions);
 
-  function renderStats() {
-    $('#score').html(sepsisQuiz.score);
-    $('#status').html(sepsisQuiz.status);
-    $('#answered_count').html(sepsisQuiz.totalAnsweredQuestions);
-    $('#total_count').html(sepsisQuiz.totalQuestions);
-  }
+  // Bind click handler
+  $('.choice').bind('click', onSelect);
 
-  function render(sepsisQuiz) {
-
-    /* ------ questions ------ */
-    $('#questions_container').html(sepsisQuiz.renderedQuestions);
-    $('input.choice').bind('click', onSelect);
-  }
-
-  /* ------ event handlers ------ */
   function onSelect(e) {
-    var qId = $(e.target).attr('data-question-id');
-    var val = e.target.value;
+    var questionId = $(e.target).attr('data-question-id');
+    var answerId = $(e.target).attr('id');
 
-    var res = sepsisQuiz.processQuestion(qId, val);
+    var correctId = sepsisQuiz.processQuestion(questionId, answerId);
 
-    if (res !== null) {
-      var parentField = $(e.target).parent();
-      var classNames = 'disabled ';
-      parentField.siblings('.field').addClass(classNames);
-
-      classNames += res ? 'correct ' : 'incorrect ';
-      // mark the target field disabled and selected..
-      parentField.addClass(classNames + 'selected ' + (res ? 'correct ' : 'incorrect '));
-      // display those awesome icons
-      parentField.find('i').addClass('fa fa-' + (res ? 'check' : 'times'));
-      parentField.find('.fa').css('display', 'inline-block');
-
-      $('#under-card-top-' + qId).addClass('under-card-top-hide');
-      $('#learn-more-' + qId).addClass('under-card-bottom-reveal').css({ 'display': 'flex' });
-
-      if (sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
-        $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject));
-      }
+    if (correctId === null) {
+      return;
     }
 
-    // renderStats()
+    $('#' + correctId).addClass('correct');
+    $('#under-card-top-' + questionId).addClass('under-card-top-hide');
+    $('#under-card-bottom-' + questionId).addClass('under-card-bottom-reveal');
+
+    if (correctId !== answerId) {
+      $('#' + answerId).addClass('incorrect');
+    }
+
+    if (this.totalAnsweredQuestions === this.totalQuestions) {
+      $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject));
+    }
   }
 });
