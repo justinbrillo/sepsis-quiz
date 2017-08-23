@@ -185,7 +185,7 @@ jQuery(document).ready(function ($) {
     }
   }, {
     questionText: 'All of the following are signs of sepsis EXCEPT:',
-    wrongAnswers: ['Fever or feeling chilled.', 'Confusion/difficult to arouse.', 'Extreme pain or discomfort (&quot worst ever &quot).', 'Rapid breathing.'],
+    wrongAnswers: ['Fever or feeling chilled.', 'Confusion/difficult to arouse.', 'Extreme pain or discomfort (&quot;worst ever&quot;).', 'Rapid breathing.'],
     answer: 'Slow heart rate.',
     learnMore: {
       text: 'Less than 1% of Americans can correctly name all the common signs of sepsis, one of which is a rapid heart rate as your heart works to pump blood through your body. You can save a life just by arming yourself by knowing the signs of sepsis.',

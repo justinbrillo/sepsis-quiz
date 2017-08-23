@@ -222,7 +222,7 @@ jQuery(document).ready(function ($) {
       wrongAnswers: [
         'Fever or feeling chilled.',
         'Confusion/difficult to arouse.',
-        'Extreme pain or discomfort (&quot worst ever &quot).',
+        'Extreme pain or discomfort (&quot;worst ever&quot;).',
         'Rapid breathing.',
       ],
       answer: 'Slow heart rate.',
