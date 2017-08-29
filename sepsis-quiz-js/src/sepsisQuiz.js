@@ -1,9 +1,10 @@
 const allOfTheAbove = 'All of the above.'
 const noneOfTheAbove = 'None of the above.'
 const shareObject = {
-  text: 'Every 2 minutes someone dies from sepsis in the U.S. Join us in raising awareness and saving lives from #sepsis',
-  url: 'http://www.sepsis.org/sepsisawarenessmonth/',
-  redirect: 'http://www.sepsis.org/sepsisawarenessmonth/'
+  twitterText: 'Every 2 minutes someone dies from #sepsis in the US. How much do you know about sepsis? Take this quiz to find out!',
+  url: 'http://www.sepsis.org/quiz/',
+  redirect: 'http://www.sepsis.org/sepsisawarenessmonth/',
+  facebookQuote: 'Every 2 minutes someone dies from sepsis in the US. How much do you know about sepsis? Take this quiz to find out!',
 }
 
 class SepsisQuiz {
@@ -62,8 +63,8 @@ class SepsisQuiz {
   }
 
   renderShareBlock(shareBlock) {
-    const fbLink = `https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=${encodeURIComponent(shareBlock.url)}&redirect_uri=${encodeURIComponent(shareBlock.redirect)}`
-    const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareBlock.text)}${shareBlock.url ? `&url=${encodeURIComponent(shareBlock.url)}` : ''}`
+    const fbLink = `https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=${encodeURIComponent(shareBlock.url)}&redirect_uri=${encodeURIComponent(shareBlock.redirect)}&quote=${encodeURIComponent(shareBlock.facebookQuote)}`
+    const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareBlock.twitterText)}&url=${encodeURIComponent(shareBlock.url)}`
     const percentage = (this.score/this.totalQuestions)*100;
     const message = 'Our mission is to save lives and reduce suffering by raising awareness of sepsis as a medical emergency.';
     return `

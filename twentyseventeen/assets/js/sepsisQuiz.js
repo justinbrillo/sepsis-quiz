@@ -5,9 +5,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var allOfTheAbove = 'All of the above.';
 var noneOfTheAbove = 'None of the above.';
 var shareObject = {
-  text: 'Every 2 minutes someone dies from sepsis in the U.S. Join us in raising awareness and saving lives from #sepsis',
-  url: 'http://www.sepsis.org/sepsisawarenessmonth/',
-  redirect: 'http://www.sepsis.org/sepsisawarenessmonth/'
+  twitterText: 'Every 2 minutes someone dies from #sepsis in the US. How much do you know about sepsis? Take this quiz to find out!',
+  url: 'http://www.sepsis.org/quiz/',
+  redirect: 'http://www.sepsis.org/sepsisawarenessmonth/',
+  facebookQuote: 'Every 2 minutes someone dies from sepsis in the US. How much do you know about sepsis? Take this quiz to find out!'
 };
 
 var SepsisQuiz = function () {
@@ -24,8 +25,8 @@ var SepsisQuiz = function () {
   _createClass(SepsisQuiz, [{
     key: 'renderShareBlock',
     value: function renderShareBlock(shareBlock) {
-      var fbLink = 'https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=' + encodeURIComponent(shareBlock.url) + '&redirect_uri=' + encodeURIComponent(shareBlock.redirect);
-      var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareBlock.text) + (shareBlock.url ? '&url=' + encodeURIComponent(shareBlock.url) : '');
+      var fbLink = 'https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=' + encodeURIComponent(shareBlock.url) + '&redirect_uri=' + encodeURIComponent(shareBlock.redirect) + '&quote=' + encodeURIComponent(shareBlock.facebookQuote);
+      var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareBlock.twitterText) + '&url=' + encodeURIComponent(shareBlock.url);
       var percentage = this.score / this.totalQuestions * 100;
       var message = 'Our mission is to save lives and reduce suffering by raising awareness of sepsis as a medical emergency.';
       return '\n    <div class="main-container results">\n      <div class="bar-container">\n          <div class="correct-text">You got ' + this.score + ' out of ' + this.totalQuestions + ' correct!</div>\n          <div class="bar-total"><div class="bar-correct" style="width:' + percentage + '%"></div></div>\n      </div>\n      <div class="under-card-top"></div>\n      <div class="card-container">\n            <div class="question">' + message + '</div>\n            <div class="share-the-quiz">Share the quiz:</div>\n            <div class="choices">\n                <a href=' + fbLink + ' target="_blank" class="share"><div class="share-container fb">Facebook</div></a>\n                <a href=' + twitterLink + ' target="_blank" class="share"><div class="share-container tw">Twitter</div></a>\n            </div>\n      </div>\n      <div class="cta-container"><a href="http://www.sepsis.org/newsletter/" target="_blank" class="cta">Sign Up for Our Newsletter</a></div>\n      <div class="under-card-bottom-container-share">\n          <div class="under-card-bottom under-card-bottom-reveal">\n              <div class="share-text">Support the Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>\n              <div class="learn-more"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now <i class="fa fa-angle-right" aria-hidden="true"></i>\n              </a></div>\n          </div>\n      </div>\n    </div>\n    ';
