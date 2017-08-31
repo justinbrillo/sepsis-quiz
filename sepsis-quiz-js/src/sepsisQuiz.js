@@ -85,7 +85,7 @@ class SepsisQuiz {
       <div class="cta-container"><a href="http://www.sepsis.org/newsletter/" target="_blank" class="cta">Sign Up for Our Newsletter</a></div>
       <div class="under-card-bottom-container-share">
           <div class="under-card-bottom under-card-bottom-reveal">
-              <div class="share-text">Support the Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>
+              <div class="share-text">Support Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>
               <div class="learn-more"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now <i class="fa fa-angle-right" aria-hidden="true"></i>
               </a></div>
           </div>
@@ -282,8 +282,8 @@ jQuery(document).ready(function ($) {
       ],
       answer: '38',
       learnMore: {
-        text: 'Unfortunately, amputation is a very real consequence of sepsis. Blockages inside the blood vessels cause the body\'s tissue to die which can require amputation. Michael Stolzenberg was 8 years-old when sepsis led to amputation to both his arms and legs. Watch Michael\'s inspiring story.',
-        link: 'http://www.sepsis.org/erin/',
+        text: 'Unfortunately, amputation is a very real consequence of sepsis. Blockages inside the blood vessels cause the body\'s tissue to die which can require amputation. Sue’s life changed drastically because she had to undergo amputations of both arms below the elbows and both legs below the knees.',
+        link: 'http://www.sepsis.org/files/911/7-sepsis-911.mp4',
       },
     },
     {

@@ -422,7 +422,8 @@ card-container
     }
 
     .question-number {
-        font-size: 18px;
+        font-size: 24px;
+        color: #74181B;
     }
 
     .question {
@@ -431,6 +432,7 @@ card-container
 
     .choices > div {
         font-size: 18px;
+        padding: 12px 10px;
     }
 
     .card-container {
